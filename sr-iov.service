@@ -1,0 +1,13 @@
+[Unit]
+Description=Script to enable SR-IOV on boot
+Before=network.target
+
+[Service]
+ExecStart=/usr/bin/sr-iov.sh
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+
