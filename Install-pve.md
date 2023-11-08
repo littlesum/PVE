@@ -1,23 +1,23 @@
 # Install PVE 安装PVE 
-
-
+    此处省略 1K
 # Make install Media 制作安装介质
-
+    此处省略 1K
+# 重点开始
 # Kernel configure 内核设置
 
 ## grub configure 引导设置
-编辑下面文件
+**编辑下面文件**
 
     nano /etc/default/grub
 
-文件如下
+**文件如下**
 
     GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt video=efifb:off i915.enable_gvt=1 pci_pt_e820_access=on pci=assign-busses pcie_acs_override=downstream,multifunction"
     
 ## Kernel modlues
     edit /etc//etc/modules-load.d/modules.conf
 
-文件如下 
+**文件如下**
 
     # /etc/modules: kernel modules to load at boot time.
     #
@@ -31,33 +31,33 @@
     vfio_pci
     vfio_virqfd
 ## intel gvt configure 英特尔虚拟显卡设置 
-编辑下面文件
+**编辑下面文件**
     
     nano  /etc/modules-load.d/gvt.conf
 
-文件如下
+**文件如下**
 
     # below is gvt need modlues
     # 下面是intel gvt所需的驱动么,每一行一个驱动!
     kvmgt
     mdev
 ## pci passthru pci直通需要设置
-编辑下面文件
+**编辑下面文件**
 
     nano /etc/modprobe.d/vfio.conf
 
-文件如下
+**文件如下**
 
     # 每一行是一个驱动的自定义
     options vfio_iommu_type1 allow_unsafe_interrupts=1  #允许不安全的中断，直通必须
     #options vfio-pci ids=8086:3e96,8086:a352,8086:1528 #屏蔽直通的pci id,这里面包含的信息,比如8086是制造商,这里就是intel,1528是产品型号。
     options vfio-pci ids=8086:a352,8086:1528
 ### 查看pci id,命令行下面输入
-cmd input like this 
+**cmd input like this**
 
     lspci -nn -D
 
-输出类似下面内容
+***输出类似下面内容***
 
     0000:00:00.0 Host bridge [0600]: Intel Corporation 8th Gen Core Processor Host Bridge/DRAM Registers [8086:3ec6] (rev 07)
     0000:00:01.0 PCI bridge [0604]: Intel Corporation 6th-10th Gen Core Processor PCIe Controller (x16) [8086:1901] (rev 07)
@@ -104,7 +104,7 @@ cmd input like this
 1. 查询网卡 pci address
     lspci | grep -i net
 
-内容类似
+**内容类似**
 
     01:00.0 Ethernet controller: Intel Corporation 82599ES 10-Gigabit SFI/SFP+ Network Connection (rev 01)
     01:00.1 Ethernet controller: Intel Corporation 82599ES 10-Gigabit SFI/SFP+ Network Connection (rev 01)
@@ -116,7 +116,8 @@ cmd input like this
     07:00.0 Ethernet controller: Intel Corporation I210 Gigabit Network Connection (rev 03)
     08:00.0 Ethernet controller: Intel Corporation I210 Gigabit Network Connection (rev 03)
     09:00.0 Ethernet controller: Intel Corporation I210 Gigabit Network Connection (rev 03)
-或者
+
+**或者**
     
     cmd# ethtool -i enp3s0f0
 
@@ -176,7 +177,8 @@ cmd input like this
 
     reboot
 
-编辑下面文件
+**编辑下面文件**
+
     /etc/modprobe.d/sr-iov.conf
 
 **内容如下**
@@ -184,21 +186,21 @@ cmd input like this
     # options intel 万兆网卡驱动 ixgbe 最大虚拟网卡数量,我设置的是4
     options ixgbe max_vfs=4
 ### 根据pve文档建议,用sysfs修改
-安装sysfsutils工具
+**安装sysfsutils工具**
 
     apt install sysfsutils
 
-修改sysfs.conf
+**修改sysfs.conf**
 
     nano sysfs.conf
 
-原来内容如下
+**原来内容如下**
 
     # /etc/sysfs.conf - Configuration file for setting sysfs attributes.
     # Always use the powersave CPU frequency governor
    ......
 
-结尾添加如下
+**结尾添加如下**
 
     # 添加如下内容，我一般修改完了会加上修改原因和时间；
     # 2023-11-03 edit by ob_ sr-iov xt540 xt520 max_fs=4;
@@ -209,13 +211,13 @@ cmd input like this
     bus/pci/devices/0000:03:00.1/sriov_numvfs=4
 
 ## SR-IOV 开机相关设置
-需要设置好相应的虚拟网卡 mac address,还有设置好开机启动,pve默认网卡的行为是down!
+**需要设置好相应的虚拟网卡 mac address,还有设置好开机启动,pve默认网卡的行为是down!
 
-开机简单脚本
+开机简单脚本**
 
     cat /lib/systemd/system/sr-iov.service
 
-内容如下
+**内容如下**
 
     [Unit]
     Description=Script to enable SR-IOV on boot
@@ -237,7 +239,7 @@ cmd input like this
 
     cat /usr/bin/sr-iov.sh
 
-保存下面内容
+**保存下面内容**
 
     #!/bin/sh
     # set x520 port 1&2 up
@@ -299,6 +301,7 @@ cmd input like this
     reboot
 
 # Enjoy && 享受你的PVE欢乐人生
-    thanks for reading！！！
+    thanks for reading!!!
+    
 
 
