@@ -1,0 +1,7 @@
+deb http://ftp.debian.org/debian bookworm main contrib  non-free-firmware
+
+deb http://ftp.debian.org/debian bookworm-updates main contrib  non-free-firmware
+
+# security updates
+deb http://security.debian.org bookworm-security main contrib  non-free-firmware
+
