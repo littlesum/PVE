@@ -2,6 +2,8 @@
 
 **记录我的pve学习设置过程!**
 
+### [**Install-pve.md**](https://cloud.zod.wiki/ob/pve/src/branch/main/Install-pve.md)
+
 ## pci passthru
 ## sr-iov
 ## intel-gvt
