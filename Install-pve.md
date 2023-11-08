@@ -14,8 +14,8 @@
 
     GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt video=efifb:off i915.enable_gvt=1 pci_pt_e820_access=on pci=assign-busses pcie_acs_override=downstream,multifunction"
     
-## Kernel modlues
-    edit /etc//etc/modules-load.d/modules.conf
+## Kernel modlues 编辑下面文件
+    nano /etc/modules-load.d/modules.conf
 
 **文件如下**
 
@@ -101,8 +101,10 @@
 
 **命令代码**
 
-1. 查询网卡 pci address
-    lspci | grep -i net
+1. 查询网卡 pci address;
+
+    `lspci | grep -i net`
+
 
 **内容类似**
 
@@ -134,8 +136,9 @@
     supports-register-dump: yes
     supports-priv-flags: yes
 
-2. 查看设备是否支持 SR-IOV 
-    cmd# lspci -v -s 0000:03:00.0
+2. 查看设备是否支持 SR-IOV
+
+    `cmd# lspci -v -s 0000:03:00.0`
 
 **内容如下**
 
@@ -162,10 +165,10 @@
 
 **有这句就是支持 SR-IOV**
 
-## 开始设置 
-### 开始设置之前,建议更新initramfs和grub
+# 注意⚠️注意⚠️注意⚠️ | Notice
+# 开始设置之前,建议更新initramfs和grub
 
-# 注意⚠️注意⚠️注意⚠️ ｜ Notice
+
 **因为开启相关直通,重启后设备会更改pci设备的地址,比如我的网卡设备地址就从 1,2,3,4; 变成了 6,7,8,9;
 万兆网卡的pci设备地址也发生了变化。**
 
@@ -173,15 +176,16 @@
     update-grub
     proxmox-boot-tool refresh
 
-**重启后设备**
+**重启设备**
 
     reboot
-
+## 开始设置 
 **编辑下面文件**
 
     /etc/modprobe.d/sr-iov.conf
 
 **内容如下**
+
     # options 你的网卡驱动 最大虚拟网卡数量
     # options intel 万兆网卡驱动 ixgbe 最大虚拟网卡数量,我设置的是4
     options ixgbe max_vfs=4
@@ -211,9 +215,9 @@
     bus/pci/devices/0000:03:00.1/sriov_numvfs=4
 
 ## SR-IOV 开机相关设置
-**需要设置好相应的虚拟网卡 mac address,还有设置好开机启动,pve默认网卡的行为是down!
+**需要设置好相应的虚拟网卡 mac address,还有设置好开机启动,pve默认网卡的行为是down!**
 
-开机简单脚本**
+**开机简单脚本**
 
     cat /lib/systemd/system/sr-iov.service
 
