@@ -202,7 +202,7 @@
 
     # /etc/sysfs.conf - Configuration file for setting sysfs attributes.
     # Always use the powersave CPU frequency governor
-   ......
+    ......
 
 **结尾添加如下**
 
@@ -295,7 +295,7 @@
 
 # 收尾工作
 
-## 更新ininramfs
+## 更新initramfs
     update-initramfs -u -k all
 ## 更新grub 引导程序
     update-grub
@@ -305,7 +305,7 @@
     reboot
 
 # Enjoy && 享受你的PVE欢乐人生
-    thanks for reading!!!
+    Thanks for reading!!!
     
 
 
