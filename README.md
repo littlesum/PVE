@@ -8,6 +8,8 @@
 
 ## [PVE 主机 IPv6 设置 SLAAC ](https://git.zod.wiki/ob/pve/src/branch/main/pve_vmbr_ipv6_configure.md)
 
+[licence](./LICENCE)
+
 ## pci passthru
 
 ## sr-iov
